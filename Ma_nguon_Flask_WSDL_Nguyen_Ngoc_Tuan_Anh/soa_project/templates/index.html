@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><title>XML Form Generator</title>
+<style>body{font-family:Arial;max-width:680px;margin:40px auto;line-height:1.6}
+label{display:block;margin-top:14px}input{width:100%;padding:10px;box-sizing:border-box}
+button{margin-top:20px;padding:12px 20px;background:#1657a4;color:white;border:0}
+.error{color:#b00020}</style></head>
+<body><h1>Nhập dữ liệu sinh viên</h1>
+<p>Biểu mẫu được tạo từ các phần tử trong student.xsd.</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="post">
+{% for field in fields %}
+<label for="{{ field.name }}">{{ field.name }} ({{ field.type }})</label>
+<input id="{{ field.name }}" name="{{ field.name }}"
+ {% if field.required %}required{% endif %}
+ {% if field.type == 'xs:positiveInteger' %}type="number" min="1"
+ {% elif field.name == 'email' %}type="email"
+ {% else %}type="text"{% endif %}>
+{% endfor %}
+<button type="submit">Tạo và tải XML</button>
+</form></body></html>

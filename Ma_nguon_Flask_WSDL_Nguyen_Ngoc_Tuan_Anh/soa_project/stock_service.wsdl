@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:tns="http://example.org/stock"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ targetNamespace="http://example.org/stock" name="StockService">
+ <types><xsd:schema targetNamespace="http://example.org/stock"
+   elementFormDefault="qualified">
+  <xsd:element name="loginRequest"><xsd:complexType><xsd:sequence>
+   <xsd:element name="username" type="xsd:string"/>
+   <xsd:element name="password" type="xsd:string"/>
+  </xsd:sequence></xsd:complexType></xsd:element>
+  <xsd:element name="logReply"><xsd:complexType><xsd:sequence>
+   <xsd:element name="sessionToken" type="xsd:string"/>
+   <xsd:element name="success" type="xsd:boolean"/>
+  </xsd:sequence></xsd:complexType></xsd:element>
+  <xsd:element name="stockQuoteRequest"><xsd:complexType><xsd:sequence>
+   <xsd:element name="symbol" type="xsd:string"/>
+   <xsd:element name="sessionToken" type="xsd:string"/>
+  </xsd:sequence></xsd:complexType></xsd:element>
+  <xsd:element name="stockQuoteResponse"><xsd:complexType><xsd:sequence>
+   <xsd:element name="symbol" type="xsd:string"/>
+   <xsd:element name="price" type="xsd:decimal"/>
+   <xsd:element name="currency" type="xsd:string"/>
+   <xsd:element name="timestamp" type="xsd:dateTime"/>
+  </xsd:sequence></xsd:complexType></xsd:element>
+  <xsd:element name="logoutRequest"><xsd:complexType><xsd:sequence>
+   <xsd:element name="sessionToken" type="xsd:string"/>
+  </xsd:sequence></xsd:complexType></xsd:element>
+ </xsd:schema></types>
+ <message name="loginRequest"><part name="parameters" element="tns:loginRequest"/></message>
+ <message name="logReply"><part name="parameters" element="tns:logReply"/></message>
+ <message name="stockQuoteRequest"><part name="parameters" element="tns:stockQuoteRequest"/></message>
+ <message name="stockQuoteResponse"><part name="parameters" element="tns:stockQuoteResponse"/></message>
+ <message name="logoutRequest"><part name="parameters" element="tns:logoutRequest"/></message>
+ <portType name="StockPortType">
+  <operation name="LogIn"><input message="tns:loginRequest"/><output message="tns:logReply"/></operation>
+  <operation name="ProvideQuote"><input message="tns:stockQuoteRequest"/><output message="tns:stockQuoteResponse"/></operation>
+  <operation name="QueryNYSE"><input message="tns:stockQuoteRequest"/><output message="tns:stockQuoteResponse"/></operation>
+  <operation name="QuoteToUser"><input message="tns:stockQuoteRequest"/><output message="tns:stockQuoteResponse"/></operation>
+  <operation name="LogOut"><input message="tns:logoutRequest"/></operation>
+ </portType>
+ <binding name="StockSoapBinding" type="tns:StockPortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="LogIn"><soap:operation soapAction="urn:LogIn"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  <operation name="ProvideQuote"><soap:operation soapAction="urn:ProvideQuote"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  <operation name="QueryNYSE"><soap:operation soapAction="urn:QueryNYSE"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  <operation name="QuoteToUser"><soap:operation soapAction="urn:QuoteToUser"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  <operation name="LogOut"><soap:operation soapAction="urn:LogOut"/><input><soap:body use="literal"/></input></operation>
+ </binding>
+ <service name="StockService"><port name="StockPort" binding="tns:StockSoapBinding">
+  <soap:address location="http://localhost:8080/stock"/>
+ </port></service>
+</definitions>

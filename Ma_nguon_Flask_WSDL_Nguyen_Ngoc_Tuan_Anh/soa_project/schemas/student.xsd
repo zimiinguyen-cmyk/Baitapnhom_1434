@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ <xs:element name="student"><xs:complexType><xs:sequence>
+  <xs:element name="full_name" type="xs:string"/>
+  <xs:element name="student_id" type="xs:string"/>
+  <xs:element name="class_name" type="xs:string"/>
+  <xs:element name="email" type="xs:string" minOccurs="0"/>
+  <xs:element name="year" type="xs:positiveInteger"/>
+ </xs:sequence></xs:complexType></xs:element>
+</xs:schema>
